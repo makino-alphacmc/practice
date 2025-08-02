@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ダークテーマ用のカスタムスタイル */
+@layer base {
+	body {
+		@apply bg-gray-900 text-gray-100;
+	}
+
+	/* スクロールバーのカスタマイズ */
+	::-webkit-scrollbar {
+		width: 8px;
+	}
+
+	::-webkit-scrollbar-track {
+		@apply bg-gray-800;
+	}
+
+	::-webkit-scrollbar-thumb {
+		@apply bg-gray-600 rounded-full;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		@apply bg-gray-500;
+	}
+}
+
+/* フォーカス時のスタイル */
+@layer components {
+	.focus-ring {
+		@apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900;
+	}
+
+	.btn-primary {
+		@apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors duration-200 focus-ring;
+	}
+
+	.btn-secondary {
+		@apply bg-gray-700 hover:bg-gray-600 text-gray-100 px-4 py-2 rounded-md transition-colors duration-200 focus-ring;
+	}
+
+	.input-field {
+		@apply bg-gray-700 border border-gray-600 text-gray-100 px-3 py-2 rounded-md focus-ring placeholder-gray-400;
+	}
+
+	.card {
+		@apply bg-gray-800 border border-gray-700 rounded-lg p-6 shadow-lg;
+	}
+}
