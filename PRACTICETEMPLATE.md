@@ -75,17 +75,57 @@ what_you_learn:
 file_structure:
 practice/
 src/app/
-layout.tsx
-page.tsx
-globals.css # Tailwind base/components/utilities 読み込み + テーマ変数
-components/PostCard.tsx
-types/post.ts
-lib/db.ts # Prisma クライアント
-prisma/
-schema.prisma # DB スキーマ
+├── lib/
+│ └── prisma.ts # Prisma クライアント（固定場所）
+│
+├── project/ # プロジェクトドメイン
+│ ├── \_dto/
+│ │ └── project.ts # プロジェクト DTO
+│ ├── \_presentational/
+│ │ ├── ProjectCard.tsx # プロジェクト専用カード
+│ │ ├── ProjectHeader.tsx
+│ │ ├── ProjectBody.tsx
+│ │ └── ProjectFooter.tsx
+│ ├── \_repository/
+│ │ └── projectRepository.ts # プロジェクトの DB アクセス
+│ ├── \_action/
+│ │ └── project.ts # プロジェクト関連アクション
+│ └── \_schema/
+│ └── project.ts # プロジェクトバリデーションスキーマ
+│
+├── product/ # 商品ドメイン
+│ ├── \_dto/
+│ │ └── product.ts
+│ ├── \_presentational/
+│ │ ├── Card.tsx
+│ │ ├── CardHeader.tsx
+│ │ ├── CardBody.tsx
+│ │ ├── CardFooter.tsx
+│ │ └── ProductCard.tsx
+│ ├── \_repository/
+│ │ └── productRepository.ts
+│ ├── \_action/
+│ │ └── product.ts
+│ └── \_schema/
+│ └── product.ts
+│
+├── user/ # ユーザードメイン
+│ ├── \_dto/
+│ │ └── user.ts
+│ ├── \_presentational/
+│ │ └── UserCard.tsx
+│ ├── \_repository/
+│ │ └── userRepository.ts
+│ ├── \_action/
+│ │ └── user.ts
+│ └── \_schema/
+│ └── user.ts
+│
+├── layout.tsx
+├── page.tsx
+└── globals.css
 
 Tailwind セットアップファイル（既存プロジェクトに合わせて配置）
-
 tailwind.config.ts
 postcss.config.js
 
@@ -124,9 +164,36 @@ repeat_and_random_practice（Phase 3）:
 
 ⸻
 
+🏗️ アーキテクチャ概念（ドメイン駆動設計）
+
+【基本原則】
+• ドメイン別フォルダ分割（project/, product/, user/）
+• 各ドメイン内で層別フォルダ分割（\_dto/, \_presentational/, \_repository/, \_action/, \_schema/）
+• lib/ は共通ライブラリ（Prisma クライアントなど）
+• 関心の分離と責任の明確化
+
+【各層の役割】
+• \_dto/ - データ転送オブジェクト（型定義、API 境界）
+• \_presentational/ - UI コンポーネント（表示ロジックのみ）
+• \_repository/ - データアクセス（DB 操作、外部 API）
+• \_action/ - ビジネスロジック（ドメインサービス、ユースケース）
+• \_schema/ - バリデーション（Zod スキーマ、データ検証）
+
+【命名規則】
+• ドメイン名/ - 機能領域別フォルダ
+• \_層名/ - アンダースコアプレフィックスで層を明示
+• ファイル名 - 機能名 + 層名（例：productRepository.ts）
+
+【インポートパス】
+• 同ドメイン内: ../\_dto/product
+• 他ドメイン: ../../user/\_dto/user
+• 共通ライブラリ: ../../lib/prisma
+
+⸻
+
 ⚠️ 実行ルール
 
-必須: 1. 1 課題=15 分で終わるサイズに分割 2. 図解必須（テキスト図で OK） 3. App Router の最新概念を必ず使用（Server Components, Server Actions, Route Handlers） 4. 実際の DB 操作を前提とした実装 5. 不要部分はサンプル化して本文に載せない（こちらで保管） 6. Phase 2 は答え禁止（ヒントのみ） 7. 毎回ファイル名を変更 8. 各手順に"目的"を一行で明記 9. スタイルは Tailwind CSS を使用（ユーティリティファースト） 10. UI は globals.css で統一しつつ課題ごとにテーマ変数のみ変更（Phase 1 で自動作成） 11. Prisma スキーマと DB 操作の説明を含む
+必須: 1. 1 課題=15 分で終わるサイズに分割 2. 図解必須（テキスト図で OK） 3. App Router の最新概念を必ず使用（Server Components, Server Actions, Route Handlers） 4. 実際の DB 操作を前提とした実装 5. 不要部分はサンプル化して本文に載せない（こちらで保管） 6. Phase 2 は答え禁止（ヒントのみ） 7. 毎回ファイル名を変更 8. 各手順に"目的"を一行で明記 9. スタイルは Tailwind CSS を使用（ユーティリティファースト） 10. UI は globals.css で統一しつつ課題ごとにテーマ変数のみ変更（Phase 1 で自動作成） 11. Prisma スキーマと DB 操作の説明を含む 12. ドメイン駆動設計のフォルダ構成に従う（ドメイン別 + 層別分割） 13. 各層の責任を明確に分離（\_dto, \_presentational, \_repository, \_action, \_schema）
 
 禁止:
 • 過剰な UI/アニメーション
@@ -140,9 +207,9 @@ repeat_and_random_practice（Phase 3）:
 
 🔄 実行例（各 15 分想定）
 
-1 回目（P1）: Prisma スキーマ + Server Component で投稿一覧表示（container mx-auto grid gap-6 p-6 + bg-white rounded-xl shadow p-6 / テーマはダーク可）
-2 回目（P2）: Server Action でユーザー作成フォーム（フォーム処理: divide-y, bg-white, rounded-lg, shadow / ライトテーマ）
-3 回目（P3）: Route Handler で商品 API + 商品一覧表示（商品向け配色: bg-emerald-50, text-emerald-900 など / テーマ変数変更）
+1 回目（P1）: 商品ドメイン - Prisma スキーマ + Server Component で商品一覧表示（product/\_presentational/ProductCard.tsx + product/\_action/product.ts / テーマはダーク可）
+2 回目（P2）: ユーザードメイン - Server Action でユーザー作成フォーム（user/\_presentational/UserCard.tsx + user/\_action/user.ts / ライトテーマ）
+3 回目（P3）: プロジェクトドメイン - Route Handler でプロジェクト API + プロジェクト一覧表示（project/\_presentational/ProjectCard.tsx + project/\_action/project.ts / テーマ変数変更）
 
 ⸻
 
