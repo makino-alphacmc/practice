@@ -167,6 +167,7 @@ repeat_and_random_practice（Phase 3）:
 🏗️ アーキテクチャ概念（ドメイン駆動設計）
 
 【基本原則】
+• 現時点で最も最新のアーキテクチャに従う
 • ドメイン別フォルダ分割（project/, product/, user/）
 • 各ドメイン内で層別フォルダ分割（\_dto/, \_presentational/, \_repository/, \_action/, \_schema/）
 • lib/ は共通ライブラリ（Prisma クライアントなど）

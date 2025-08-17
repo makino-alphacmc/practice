@@ -1,203 +1,133 @@
-【基本編：最短で一人前になるための必修スキル】
+## 🕒 15 分タスクパック（優先度付きスライス練習）
 
-1. ページルーティング入門（★★★★★）
-   　目的: ページ間移動の基礎。
-   　具体例: /about にアクセスすると会社概要ページを表示。
-   　課題:
-   　 1. /about と /contact ページを作って遷移できるようにする。
-   　 2. 動的ルーティングで /blog/[id] ページを作る。
-   　 3. ナビゲーションメニューを追加して全ページ移動可能にする。
+> Next.js 実務処理を「1 タスク＝ 15 分」で練習できるよう分割。  
+> 各タスクは **目的 / 触る場所 / 手順（例） / DoD** で構成。  
+> **手順は例に過ぎない**ので、実演ではランダムに内容を変えて出題すること。
 
-2. コンポーネントと Props（★★★★★）
-   　目的: UI 部品化とデータ受け渡し。
-   　具体例: Card コンポーネントにタイトルと説明文を渡して表示。
-   　課題:
-   　 1. Props で受け取った文字を表示する Card コンポーネントを作る。
-   　 2. 複数の Card を map で一覧表示する。
-   　 3. 親コンポーネントからデータを変更できるようにする。
+---
 
-3. 状態管理基礎（useState/useEffect）（★★★★★）
-   　目的: ユーザー操作に応じて UI を変化。
-   　具体例: ボタンを押すとカウンターが 1 ずつ増える。
-   　課題:
-   　 1. カウントアップ・ダウン可能なボタンを作る。
-   　 2. useEffect で初回だけ API からデータ取得。
-   　 3. 入力フォームの内容をリアルタイム表示する。
+### 優先度 1: CRUD 基本
 
-4. Server Components で静的データ取得（★★★★★）
-   　目的: サーバーサイドでデータ取得し高速表示。
-   　具体例: ブログ記事一覧を事前生成して表示。
-   　課題:
-   　 1. JSON ファイルのデータを静的取得して表示。
-   　 2. 外部 API から取得して静的ページ生成。
-   　 3. generateStaticParams で動的ルートを事前生成。
+#### T1. Create（新規作成）
 
-5. Server Components で SSR（★★★★★）
-   　目的: 毎回最新データを取得して表示。
-   　具体例: 毎回変わる株価情報ページ。
-   　課題:
-   　 1. サーバーサイドで API から天気情報を取得して表示。
-   　 2. searchParams で表示内容を切り替える。
-   　 3. ページ読み込み時に必ず最新データを表示。
+- **目的**: Post を 1 件作成できる
+- **触る場所**: `_schema/post.ts`, `_dto/post.ts`, `_action/post.ts`, `_repository/postRepository.ts`, `_presentational/PostForm.tsx`, `app/(cms)/posts/new/page.tsx`
+- **手順（例）**: zod スキーマ定義 → DTO 作成 → Action `$transaction` → Repository → revalidateTag
+- **DoD**: 入力不備でエラー表示、正常作成で一覧更新
 
-6. クライアントサイドの fetch（★★★★☆）
-   　目的: ユーザー操作で非同期データ取得。
-   　具体例: 「もっと読む」ボタンで記事追加読み込み。
-   　課題:
-   　 1. ボタンを押すとランダムなユーザー情報を取得。
-   　 2. ページ読み込み後に自動でデータ取得。
-   　 3. ローディング中にスピナー表示。
+#### T2. Read-List（一覧）
 
-7. next/image の最適化（★★★★☆）
-   　目的: 画像サイズを自動最適化し高速化。
-   　具体例: レスポンシブな商品画像表示。
-   　課題:
-   　 1. next/image で固定サイズの画像を表示。
-   　 2. 画面幅に応じてサイズが変わる画像を表示。
-   　 3. priority でファーストビュー画像を優先読み込み。
+- **目的**: Post 一覧と空状態を表示
+- **触る場所**: `_repository/postRepository.ts`, `_presentational/PostList.tsx`, `app/(cms)/posts/page.tsx`
+- **手順（例）**: Repository.list → RSC で呼び出し → map でレンダリング
+- **DoD**: 0 件で空表示、id を key に利用
 
-8. metadata で SEO（★★★★☆）
-   　目的: 検索や SNS 表示用のメタ情報設定。
-   　具体例: タイトルや OGP 画像を設定して SNS で綺麗に表示。
-   　課題:
-   　 1. 各ページごとに異なる metadata を設定。
-   　 2. generateMetadata で動的メタデータ生成。
-   　 3. OGP 用の meta タグを設定。
+#### T3. Read-Detail（詳細）
 
-9. Script で外部スクリプト読み込み（★★★☆☆）
-   　目的: 必要な外部 JS を安全に読み込み。
-   　具体例: Google Analytics 計測タグ追加。
-   　課題:
-   　 1. 外部 JS ライブラリを Script で読み込む。
-   　 2. strategy の違いを試す。
-   　 3. ログを出力する外部スクリプトを組み込み。
+- **目的**: 1 件の詳細と 404 分岐
+- **触る場所**: `_repository/postRepository.ts`, `app/(cms)/posts/[id]/page.tsx`, `_presentational/PostDetail.tsx`
+- **手順（例）**: getById → notFound() 分岐
+- **DoD**: 不正 ID で 404、必要最小データのみ取得
 
-10. Route Handlers でエンドポイント作成（★★★★★）
-    　目的: 簡易 API を Next.js 内で構築。
-    　具体例: /api/hello で「Hello World」を返す。
-    　課題:
-    　 1. /api/time で現在時刻を返す API を作る。
-    　 2. クエリパラメータで結果を変える API。
-    　 3. POST で受け取ったデータを返す API。
+#### T4. Update（更新）
 
-11. フォーム作成と送信（★★★★★）
-    　目的: ユーザー入力を受け取り処理。
-    　具体例: お問い合わせフォーム送信。
-    　課題:
-    　 1. 名前とメールの入力フォームを作る。
-    　 2. 入力内容をアラート表示する。
-    　 3. バリデーションで必須項目チェック。
+- **目的**: タイトル/本文を更新
+- **触る場所**: `_schema/post.ts`, `_action/post.ts`, `_repository/postRepository.ts`, `_presentational/PostForm.tsx`
+- **手順（例）**: 部分スキーマ → Action `$transaction` → revalidateTag
+- **DoD**: 未変更 submit は差分なし、競合時に通知
 
-12. フォームと API 連携（★★★★★）
-    　目的: 入力データをサーバーに送信し保存。
-    　具体例: 会員登録フォームから DB にユーザー追加。
-    　課題:
-    　 1. 入力データを Route Handlers に送信。
-    　 2. 送信結果を画面に表示。
-    　 3. エラー時にメッセージを表示。
+#### T5. Delete（削除）
 
-13. テスト基礎（Jest + React Testing Library）（★★★★★）
-    　目的: 機能の正しさを自動検証。
-    　具体例: ボタンをクリックするとカウントが増えるか確認。
-    　課題:
-    　 1. コンポーネントが正しく描画されるかテスト。
-    　 2. ユーザー操作で状態が変化するかテスト。
-    　 3. API 呼び出しをモックしてレスポンスを確認。
+- **目的**: 1 件削除と確認モーダル
+- **触る場所**: `_action/post.ts`, `_repository/postRepository.ts`, `_presentational/DeleteButton.tsx`
+- **手順（例）**: Confirm モーダル → Action remove → revalidateTag
+- **DoD**: 削除後に一覧から消える、Undo 表示（任意）
 
-14. Context API でグローバル状態管理（★★★★☆）
-    　目的: 複数ページ間で状態共有。
-    　具体例: ログイン状態を全ページで利用。
-    　課題:
-    　 1. ログイン状態を Context で管理。
-    　 2. 別ページから状態を変更。
-    　 3. Provider でテーマを切り替え。
+---
 
-15. Vercel にデプロイ（★★★★★）
-    　目的: 作成したアプリを公開。
-    　具体例: Vercel にプッシュして本番 URL 発行。
-    　課題:
-    　 1. GitHub と Vercel を連携。
-    　 2. 環境変数を設定して公開。
-    　 3. デプロイ後の動作確認。
+### 優先度 2: 検索・ページング
 
-【応用編：実務で評価されるスキル】
+#### T6. 検索・並び替え・ページング
 
-16. ファイル構成・ディレクトリ設計（★★★★☆）
-    　目的: 大規模でも管理しやすい構造に。
-    　具体例: UI 部品は components/、機能ごとは features/に配置。
-    　課題:
-    　 1. 小規模プロジェクトをフォルダ分け。
-    　 2. 共通 UI を別フォルダにまとめる。
-    　 3. 機能ごとに index.ts でエクスポート。
+- **目的**: URL 同期（`?q=&sort=&page=`）
+- **触る場所**: `_repository/postRepository.ts`, `app/(cms)/posts/page.tsx`, `_presentational/PostListHeader.tsx`
+- **手順（例）**: searchParams 正規化 → list に適用 → ページネーション UI
+- **DoD**: URL 直叩きで同結果、検索列にインデックス設計
 
-17. 型定義の徹底（TypeScript）（★★★★★）
-    　目的: 型でバグ予防し安全に開発。
-    　具体例: API レスポンス型を定義して誤使用防止。
-    　課題:
-    　 1. API レスポンスの型を作成。
-    　 2. props の型を定義。
-    　 3. 型エラーを解消。
+---
 
-18. エラーハンドリングとローディング管理（★★★★☆）
-    　目的: ユーザー体験を守る。
-    　具体例: データ取得失敗時にエラーメッセージ表示。
-    　課題:
-    　 1. try/catch で fetch エラー処理。
-    　 2. ローディング中はスピナー表示。
-    　 3. エラー内容を UI に表示。
+### 優先度 3: フォーム送信 + バリデーション
 
-19. ページネーションやフィルタリング（★★★☆☆）
-    　目的: 大量データを見やすく表示。
-    　具体例: 商品一覧を 10 件ずつページ分け。
-    　課題:
-    　 1. 10 件ずつ表示するページネーション実装。
-    　 2. キーワード検索で絞り込み。
-    　 3. カテゴリフィルタを追加。
+#### T7. フォーム送信
 
-20. UI ライブラリ活用（Tailwind CSS, shadcn/ui）（★★★★☆）
-    　目的: 開発速度と UI 品質向上。
-    　具体例: Tailwind でレスポンシブ対応ボタン作成。
-    　課題:
-    　 1. Tailwind でカード UI 作成。
-    　 2. shadcn/ui でモーダル実装。
-    　 3. カスタムテーマを設定。
+- **目的**: バリデーション付き送信
+- **触る場所**: `_schema/contact.ts`, `_dto/contact.ts`, `_action/contact.ts`, `_presentational/ContactForm.tsx`
+- **手順（例）**: zod + DTO → RHF → Action 保存 & redirect
+- **DoD**: 二重送信防止、エラーは UI 表示
 
-21. ミドル〜大規模状態管理（★★★☆☆）
-    　目的: 複雑な状態を整理して管理。
-    　具体例: Zustand でカート機能を全画面で共有。
-    　課題:
-    　 1. Zustand で状態管理。
-    　 2. useReducer で状態管理。
-    　 3. 状態管理を Context と組み合わせ。
+#### T8. 非同期バリデーション
 
-22. API クライアント共通化（★★★★☆）
-    　目的: API 呼び出し処理の統一化。
-    　具体例: axios で共通ベース URL を設定。
-    　課題:
-    　 1. fetch ラッパ関数作成。
-    　 2. axios 共通設定作成。
-    　 3. interceptor で認証トークン追加。
+- **目的**: 重複メールチェック
+- **触る場所**: `_action/user.ts`, `_repository/userRepository.ts`, `_presentational/SignupForm.tsx`
+- **手順（例）**: checkEmailExists Action → onBlur 呼び出し → setError
+- **DoD**: 重複でエラー、無駄呼び出しなし
 
-23. SEO・パフォーマンス改善（★★★★☆）
-    　目的: 検索順位と表示速度向上。
-    　具体例: Lighthouse スコアを 90 以上に改善。
-    　課題:
-    　 1. metadata 最適化。
-    　 2. 画像の lazy loading 適用。
-    　 3. Lighthouse でスコア計測。
+---
 
-24. Next.js Middleware（★★★☆☆）
-    　目的: リクエスト時に処理を挟む。
-    　具体例: 未ログイン時にログインページへリダイレクト。
-    　課題:
-    　 1. Middleware で認証チェック。
-    　 2. URL によってアクセス制御。
-    　 3. ログ出力処理を挟む。
+### 優先度 4: ログイン・認証
 
-25. （応用）テスト拡張（★★★★☆）
-    　目的: より広範囲な自動テスト。
-    　具体例: Playwright でログイン〜投稿まで自動確認。
-    　課題:
-    　 1. E2E テストでログイン動作確認。
-    　 2. 投稿フォームの統合テスト。
-    　 3. 複数ページ間の動作確認。
+#### T9. ログイン（最小）
+
+- **目的**: サインイン & `/dashboard` 保護
+- **触る場所**: `auth.config`, `middleware.ts`, `_presentational/LoginForm.tsx`
+- **手順（例）**: Credentials Provider 設定 → Middleware で未認証は `/login`
+- **DoD**: 正常/異常分岐が動作
+
+#### T9-2. 認可（RBAC）
+
+- **目的**: user/admin の権限制御
+- **触る場所**: `middleware.ts`, `_repository/userRepository.ts`
+- **手順（例）**: user.role 判定 → admin ページのみ許可
+- **DoD**: 非管理者はアクセス拒否
+
+---
+
+### 優先度 5: ファイルアップロード
+
+#### T11. 画像アップロード
+
+- **目的**: 1 枚の画像アップロード
+- **触る場所**: `_action/upload.ts`, `_presentational/AvatarUploader.tsx`, `_repository/userRepository.ts`
+- **手順（例）**: MIME/サイズ検証 → Action 保存 → DB へパス保存
+- **DoD**: 危険拡張子除外、プレビュー表示
+
+---
+
+### 優先度 6: 非同期 UX
+
+#### T10. 楽観更新
+
+- **目的**: 即時反映 UX
+- **触る場所**: `_action/like.ts`, `_repository/likeRepository.ts`, `_presentational/LikeButton.tsx`
+- **手順（例）**: useOptimistic → Action 実行 → 失敗時ロールバック
+- **DoD**: 遅延でも即時反映、失敗で戻る
+
+---
+
+### 優先度 7: エラー設計
+
+#### T12. エラー設計
+
+- **目的**: 例外を UI に橋渡し
+- **触る場所**: `lib/errors.ts`, `_action/*`, `_presentational/*`
+- **手順（例）**: Error クラス定義 → Action で捕捉し UI に変換
+- **DoD**: 未捕捉は Sentry、競合エラーに専用文言
+
+---
+
+### 優先度 8: 実務必須だが補助的
+
+- **セキュリティ**: CSRF / XSS / レートリミット / Secret 管理
+- **デプロイ**: Vercel / AWS / Docker / 環境変数管理
+- **監視・ログ**: Sentry, Vercel Analytics, Error Boundary
+- **外部 API 連携**: 決済(Stripe) / メール送信 / サードパーティ連携
