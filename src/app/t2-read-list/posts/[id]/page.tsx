@@ -47,7 +47,7 @@ export default async function PostDetailPage({ params }: PostDetailPageProps) {
 				{/* 戻るボタン */}
 				<div className="mb-6">
 					<Link
-						href="/read-list/posts"
+						href="/t2-read-list/posts"
 						className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors"
 					>
 						← 読み物リストに戻る

@@ -42,7 +42,7 @@ export default async function PostsPage() {
 
 					{/* 新規作成ボタン */}
 					<Button asChild>
-						<Link href="/read-list/posts/new">📝 新しい投稿を作成</Link>
+						<Link href="/t1-create/post">📝 新しい投稿を作成</Link>
 					</Button>
 				</div>
 

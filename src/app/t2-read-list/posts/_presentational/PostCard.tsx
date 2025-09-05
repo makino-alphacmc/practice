@@ -15,7 +15,7 @@ export function PostCard({ post }: PostCardProps) {
 	// ↑ 関数コンポーネント、propsでpostを受け取る
 
 	return (
-		<Link href={`/read-list/posts/${post.id}`}>
+		<Link href={`/t2-read-list/posts/${post.id}`}>
 			{/* ↑ クリックで詳細ページに遷移 */}
 			{/* ↑ テンプレートリテラルで動的URL生成 */}
 			<Card className="group hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 cursor-pointer border-border/50 hover:border-primary/30 bg-card/50 backdrop-blur-sm">

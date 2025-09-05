@@ -6,20 +6,20 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/t1-create/page": [
+    "/t1-create/post/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/t1-create/page.js"
+      "static/chunks/app/t1-create/post/page.js"
     ],
     "/t2-read-list/posts/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/t2-read-list/posts/page.js"
     ],
-    "/_not-found/page": [
+    "/t2-read-list/posts/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/t2-read-list/posts/[id]/page.js"
     ]
   }
 }

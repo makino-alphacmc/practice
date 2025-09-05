@@ -4,7 +4,7 @@ import Link from "next/link";
 import { PostForm } from "./_presentational/PostForm";
 // ↑ フォームコンポーネントをインポート
 
-export default function T1CreatePage() {
+export default function T1CreatePostPage() {
 	// ↑ T1. Create（新規作成）ページのコンポーネント
 
 	return (
