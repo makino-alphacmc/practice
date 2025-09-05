@@ -1,5 +1,27 @@
 {
   "node": {
+    "40d8f9d287e78b4cc7524050b0d5a0a9361312edeb": {
+      "workers": {
+        "app/t4-update/post/[id]/page": {
+          "moduleId": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fkimiko%2FDesktop%2F%E4%BD%9C%E6%A5%AD%E7%94%A8%2Fpractice%2Fpractice%2Fsrc%2Fapp%2Ft4-update%2Fpost%2F_action%2Fpost.ts%22%2C%5B%7B%22id%22%3A%2240d8f9d287e78b4cc7524050b0d5a0a9361312edeb%22%2C%22exportedName%22%3A%22updatePostAction%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/t4-update/post/[id]/page": "action-browser"
+      }
+    },
+    "404cd8223e6abae4f241cda709a9c7f2e5c561df2a": {
+      "workers": {
+        "app/t5-delete/post/[id]/page": {
+          "moduleId": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fkimiko%2FDesktop%2F%E4%BD%9C%E6%A5%AD%E7%94%A8%2Fpractice%2Fpractice%2Fsrc%2Fapp%2Ft5-delete%2Fpost%2F_action%2Fpost.ts%22%2C%5B%7B%22id%22%3A%22404cd8223e6abae4f241cda709a9c7f2e5c561df2a%22%2C%22exportedName%22%3A%22deletePostAction%22%7D%5D%5D%5D&__client_imported__=true!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/t5-delete/post/[id]/page": "action-browser"
+      }
+    },
     "40b5cccce48c00d3ac18f2de9d7226c6fd1632156c": {
       "workers": {
         "app/t1-create/post/page": {
