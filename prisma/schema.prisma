@@ -9,13 +9,11 @@ datasource db {
 }
 
 model User {
-  id         Int      @id                     // 手動採番（CSVに合わせる）
-  name       String
-  email      String   @unique
-  role       String                              // 'admin'|'editor'|'viewer' （チェック制約はDB側）
-  createdAt  DateTime @map("created_at")
-
-  posts      Post[]                             // 1:N
+  id        Int      @id
+  name      String
+  email     String
+  role      String
+  createdAt DateTime @map("created_at")
 
   @@map("users")
 }
@@ -28,30 +26,27 @@ model Post {
   authorId   Int      @map("author_id")
   createdAt  DateTime @map("created_at")
 
-  author     User     @relation(fields: [authorId], references: [id])
-
   @@index([category])
   @@map("posts")
 }
 
 model Product {
-  id         Int      @id
-  name       String
-  category   String
-  price      Decimal  @db.Decimal(10, 2)        // JSONに返す時は string/number に変換してね
-  stock      Int
-  createdAt  DateTime @map("created_at")
+  id        Int      @id
+  name      String
+  category  String
+  price     Float
+  stock     Int
+  createdAt DateTime @map("created_at")
 
-  @@index([category])
   @@map("products")
 }
 
 model Contact {
-  id         Int      @id
-  name       String
-  email      String
-  message    String
-  createdAt  DateTime @map("created_at")
+  id        Int      @id
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @map("created_at")
 
   @@map("contacts")
 }

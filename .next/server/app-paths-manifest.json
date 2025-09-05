@@ -1,0 +1,4 @@
+{
+  "/read-list/posts/page": "app/read-list/posts/page.js",
+  "/read-list/posts/[id]/page": "app/read-list/posts/[id]/page.js"
+}

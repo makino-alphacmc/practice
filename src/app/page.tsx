@@ -20,7 +20,7 @@ export default function Home() {
 			id: 2,
 			title: "T2. Read-List（一覧）",
 			description: "Post 一覧と空状態を表示",
-			href: "/practice/crud/read-list",
+			href: "/read-list/posts",
 		},
 		{
 			id: 3,
