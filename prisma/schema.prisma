@@ -19,7 +19,7 @@ model User {
 }
 
 model Post {
-  id         Int      @id
+  id         Int      @id @default(autoincrement())
   title      String
   body       String
   category   String                              // 'Tech'|'Life'|'General'

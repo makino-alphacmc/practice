@@ -8,12 +8,7 @@
 
 ### 優先度 1: CRUD 基本
 
-#### T1. Create（新規作成）
 
-- **目的**: Post を 1 件作成できる
-- **触る場所**: `_schema/post.ts`, `_dto/post.ts`, `_action/post.ts`, `_repository/postRepository.ts`, `_presentational/PostForm.tsx`, `app/posts/new/page.tsx`
-- **手順（例）**: zod スキーマ定義 → DTO 作成 → Action `$transaction` → Repository → revalidateTag
-- **DoD**: 入力不備でエラー表示、正常作成で一覧更新
 
 #### T2. Read-List（一覧）
 
