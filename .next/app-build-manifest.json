@@ -6,25 +6,35 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
+    "/t4-update/product/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/t4-update/product/[id]/page.js"
+    ],
     "/t2-read-list/posts/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/t2-read-list/posts/page.js"
     ],
-    "/t4-update/post/[id]/page": [
+    "/t2-read-list/products/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/t4-update/post/[id]/page.js"
+      "static/chunks/app/t2-read-list/products/page.js"
     ],
-    "/t5-delete/post/[id]/page": [
+    "/t2-read-list/products/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/t5-delete/post/[id]/page.js"
+      "static/chunks/app/t2-read-list/products/[id]/page.js"
     ],
-    "/t1-create/post/page": [
+    "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/t1-create/post/page.js"
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }

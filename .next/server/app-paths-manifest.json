@@ -1,6 +1,8 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
+  "/t2-read-list/products/page": "app/t2-read-list/products/page.js",
+  "/t4-update/product/[id]/page": "app/t4-update/product/[id]/page.js",
+  "/page": "app/page.js",
   "/t2-read-list/posts/page": "app/t2-read-list/posts/page.js",
-  "/t1-create/post/page": "app/t1-create/post/page.js",
-  "/t5-delete/post/[id]/page": "app/t5-delete/post/[id]/page.js",
-  "/t4-update/post/[id]/page": "app/t4-update/post/[id]/page.js"
+  "/t2-read-list/products/[id]/page": "app/t2-read-list/products/[id]/page.js"
 }
