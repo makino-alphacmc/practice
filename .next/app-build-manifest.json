@@ -11,25 +11,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
-    "/t4-update/product/[id]/page": [
+    "/t1-create/product/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/t4-update/product/[id]/page.js"
-    ],
-    "/t2-read-list/posts/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/t2-read-list/posts/page.js"
+      "static/chunks/app/t1-create/product/page.js"
     ],
     "/t2-read-list/products/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/t2-read-list/products/page.js"
-    ],
-    "/t2-read-list/products/[id]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/t2-read-list/products/[id]/page.js"
     ],
     "/_not-found/page": [
       "static/chunks/webpack.js",
