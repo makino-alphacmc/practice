@@ -8,7 +8,12 @@
 
 ### 優先度 1: CRUD 基本
 
+#### T1. Create（作成）
 
+- **目的**: 新規 Post 作成フォーム
+- **触る場所**: `_schema/post.ts`, `_action/post.ts`, `_repository/postRepository.ts`, `_presentational/PostForm.tsx`
+- **手順（例）**: zod スキーマ → Action 作成 → revalidateTag → redirect
+- **DoD**: バリデーション通過後保存、作成後一覧へ遷移
 
 #### T2. Read-List（一覧）
 
