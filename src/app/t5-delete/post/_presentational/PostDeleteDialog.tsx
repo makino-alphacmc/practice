@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { deletePostAction } from "../_action/post";
 import type { Post } from "../_dto/post";
+import Link from "next/link";
 
 type PostDeleteDialogProps = {
 	post: Post;
@@ -60,7 +61,7 @@ export function PostDeleteDialog({ post }: PostDeleteDialogProps) {
 
 					{/* 戻るボタン */}
 					<Button variant="outline" asChild className="w-full">
-						<a href="/t2-read-list/posts">キャンセル</a>
+						<Link href="/t2-read-list/posts">キャンセル</Link>
 					</Button>
 				</div>
 			</CardContent>
