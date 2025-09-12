@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 
 import { createPostAction } from "../_action/post";
+import { PostCategory } from "@prisma/client";
 
 export function PostForm() {
 	return (
@@ -44,9 +45,11 @@ export function PostForm() {
 								<SelectValue placeholder="カテゴリを選択してください" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="Tech">Tech</SelectItem>
-								<SelectItem value="Life">Life</SelectItem>
-								<SelectItem value="General">General</SelectItem>
+								{Object.values(PostCategory).map((category) => (
+									<SelectItem key={category} value={category}>
+										{category}
+									</SelectItem>
+								))}
 							</SelectContent>
 						</Select>
 					</div>

@@ -15,6 +15,7 @@ import {
 
 import { updatePostAction } from "../_action/post";
 import type { Post } from "../_dto/post";
+import { PostCategory } from "@prisma/client";
 
 type PostUpdateFormProps = {
 	post: Post;
@@ -51,9 +52,11 @@ export function PostUpdateForm({ post }: PostUpdateFormProps) {
 								<SelectValue placeholder="カテゴリを選択してください" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="Tech">Tech</SelectItem>
-								<SelectItem value="Life">Life</SelectItem>
-								<SelectItem value="General">General</SelectItem>
+								{Object.values(PostCategory).map((category) => (
+									<SelectItem key={category} value={category}>
+										{category}
+									</SelectItem>
+								))}
 							</SelectContent>
 						</Select>
 					</div>

@@ -23,15 +23,24 @@ t1-create/post/
 ## 🗄️ データベーススキーマ
 
 ```sql
--- postsテーブル
-CREATE TABLE posts (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  body TEXT NOT NULL,
-  category TEXT NOT NULL,
-  author_id INTEGER NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
+-- PostgreSQL + Prisma Schema
+enum PostCategory {
+  Tech
+  Life
+  General
+}
+
+model Post {
+  id         Int          @id @default(autoincrement())
+  title      String
+  body       String
+  category   PostCategory
+  authorId   Int          @map("author_id")
+  createdAt  DateTime     @map("created_at")
+
+  @@index([category])
+  @@map("posts")
+}
 ```
 
 ## 📋 実装手順（15 分で完了）
@@ -41,12 +50,14 @@ CREATE TABLE posts (
 **目的**: 投稿データの型安全性を確保
 
 ```typescript
+import { PostCategory } from "@prisma/client";
+
 // 投稿データの完全な型定義
 export type Post = {
 	id: number; // 投稿ID（主キー）
 	title: string; // 投稿タイトル
 	body: string; // 投稿内容
-	category: string; // カテゴリ
+	category: PostCategory; // カテゴリ（enum型）
 	authorId: number; // 作成者ID
 	createdAt: Date; // 作成日時
 };
@@ -58,6 +69,7 @@ export type PostListItem = Pick<Post, "id" | "title" | "createdAt">;
 **ポイント**:
 
 - `type`を使用（interface ではなく）
+- `PostCategory`は Prisma の enum 型をインポート
 - `Pick`で軽量化された型も定義
 - データベースのカラム名と一致させる
 
@@ -67,6 +79,7 @@ export type PostListItem = Pick<Post, "id" | "title" | "createdAt">;
 
 ```typescript
 import { z } from "zod";
+import { PostCategory } from "@prisma/client";
 
 // 新規作成用のスキーマ
 export const createPostSchema = z.object({
@@ -78,10 +91,9 @@ export const createPostSchema = z.object({
 		.string()
 		.min(1, "本文は必須です")
 		.max(5000, "本文は5000文字以内で入力してください"),
-	category: z
-		.string()
-		.min(1, "カテゴリは必須です")
-		.max(50, "カテゴリは50文字以内で入力してください"),
+	category: z.nativeEnum(PostCategory, {
+		errorMap: () => ({ message: "有効なカテゴリを選択してください" }),
+	}),
 	authorId: z
 		.number()
 		.int("著者IDは整数で入力してください")
@@ -95,6 +107,7 @@ export type CreatePostInput = z.infer<typeof createPostSchema>;
 **ポイント**:
 
 - Zod で型安全なバリデーション
+- `z.nativeEnum(PostCategory)`で Prisma の enum 型を検証
 - エラーメッセージを日本語で設定
 - `z.infer`で型を自動生成
 
@@ -111,7 +124,7 @@ import type { CreatePostInput } from "../_schema/post";
 export async function createPost(data: CreatePostInput): Promise<Post> {
 	const post = await prisma.$queryRaw<Post[]>`
     INSERT INTO "posts" (title, body, category, author_id, created_at)
-    VALUES (${data.title}, ${data.body}, ${data.category}, ${data.authorId}, NOW())
+    VALUES (${data.title}, ${data.body}, ${data.category}::"PostCategory", ${data.authorId}, NOW())
     RETURNING id, title, body, category, author_id as "authorId", created_at as "createdAt"
   `;
 
@@ -122,6 +135,7 @@ export async function createPost(data: CreatePostInput): Promise<Post> {
 **ポイント**:
 
 - `$queryRaw`で生 SQL クエリを使用
+- `::"PostCategory"`で PostgreSQL の enum 型にキャスト
 - `RETURNING`で作成されたデータを取得
 - カラム名のエイリアス（`author_id as "authorId"`）
 
@@ -134,7 +148,7 @@ export async function createPost(data: CreatePostInput): Promise<Post> {
 
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
-import { createPostSchema, type CreatePostInput } from "../_schema/post";
+import { createPostSchema } from "../_schema/post";
 import { createPost } from "../_repository/postRepository";
 
 // 投稿作成アクション
@@ -190,8 +204,9 @@ export async function createPostAction(formData: FormData) {
 
 - **Next.js 14 App Router** - Server Actions
 - **TypeScript** - 型安全性
-- **Zod** - バリデーション
-- **Prisma** - データベース操作（Query Raw）
+- **Zod** - バリデーション（enum 型対応）
+- **Prisma** - データベース操作（Query Raw + PostgreSQL）
+- **PostgreSQL** - データベース（enum 型対応）
 - **shadcn/ui + Tailwind** - UI（既存）
 
 ## ✅ 完成後の動作
@@ -212,3 +227,37 @@ export async function createPostAction(formData: FormData) {
 - **Read 機能**の実装練習
 
 各機能で同じアーキテクチャパターンを繰り返し学習できます！
+
+## ⚠️ よくあるエラーと解決方法
+
+### PostgreSQL enum 型エラー
+
+**エラー**: `ERROR: 列"category"は型"PostCategory"ですが、式は型textでした`
+
+**原因**: PostgreSQL の enum 型に文字列を直接代入しようとした
+
+**解決方法**: 型キャストを使用
+
+```sql
+-- ❌ エラー
+VALUES (${data.category}, ...)
+
+-- ✅ 解決
+VALUES (${data.category}::"PostCategory", ...)
+```
+
+### シードデータの enum 値不一致
+
+**エラー**: `Invalid value for argument 'category'. Expected ProductCategory.`
+
+**原因**: CSV ファイルの値が Prisma スキーマの enum 値と一致しない
+
+**解決方法**: CSV ファイルの値を enum 値に合わせて修正
+
+```csv
+# ❌ エラー
+Accessories,Peripherals,Display
+
+# ✅ 解決
+Electronics,Electronics,Electronics
+```

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { updateProductAction } from "../_action/product";
 import type { Product } from "../_dto/product";
+import { ProductCategory } from "@prisma/client";
 
 type ProductUpdateFormProps = {
 	product: Product;
@@ -50,11 +51,11 @@ export default function ProductUpdateForm({ product }: ProductUpdateFormProps) {
 								<SelectValue placeholder="カテゴリを選択してください" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="Electronics">Electronics</SelectItem>
-								<SelectItem value="Clothing">Clothing</SelectItem>
-								<SelectItem value="Books">Books</SelectItem>
-								<SelectItem value="Home">Home</SelectItem>
-								<SelectItem value="Sports">Sports</SelectItem>
+								{Object.values(ProductCategory).map((category) => (
+									<SelectItem key={category} value={category}>
+										{category}
+									</SelectItem>
+								))}
 							</SelectContent>
 						</Select>
 					</div>
