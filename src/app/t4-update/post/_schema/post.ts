@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PostCategory } from "@prisma/client";
 
 // 更新用のスキーマ
 export const updatePostSchema = z.object({
@@ -14,10 +15,9 @@ export const updatePostSchema = z.object({
 		.string()
 		.min(1, "本文は必須です")
 		.max(5000, "本文は5000文字以内で入力してください"),
-	category: z
-		.string()
-		.min(1, "カテゴリは必須です")
-		.max(50, "カテゴリは50文字以内で入力してください"),
+	category: z.nativeEnum(PostCategory, {
+		errorMap: () => ({ message: "有効なカテゴリを選択してください" }),
+	}),
 	authorId: z
 		.number()
 		.int("著者IDは整数で入力してください")

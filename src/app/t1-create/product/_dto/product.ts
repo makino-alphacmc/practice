@@ -1,7 +1,9 @@
+import { ProductCategory } from "@prisma/client";
+
 export type Product = {
 	id: number;
 	name: string;
-	category: string;
+	category: ProductCategory;
 	price: number;
 	stock: number;
 	createdAt: Date;

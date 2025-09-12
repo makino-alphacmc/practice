@@ -50,11 +50,11 @@ export default function ProductUpdateForm({ product }: ProductUpdateFormProps) {
 								<SelectValue placeholder="カテゴリを選択してください" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="Accessories">Accessories</SelectItem>
-								<SelectItem value="Peripherals">Peripherals</SelectItem>
-								<SelectItem value="Display">Display</SelectItem>
-								<SelectItem value="Storage">Storage</SelectItem>
-								<SelectItem value="Audio">Audio</SelectItem>
+								<SelectItem value="Electronics">Electronics</SelectItem>
+								<SelectItem value="Clothing">Clothing</SelectItem>
+								<SelectItem value="Books">Books</SelectItem>
+								<SelectItem value="Home">Home</SelectItem>
+								<SelectItem value="Sports">Sports</SelectItem>
 							</SelectContent>
 						</Select>
 					</div>

@@ -8,6 +8,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PostCategory {
+  Tech
+  Life
+  General
+}
+
+enum ProductCategory {
+  Electronics
+  Clothing
+  Books
+  Home
+  Sports
+}
+
 model User {
   id        Int      @id
   name      String
@@ -19,24 +33,24 @@ model User {
 }
 
 model Post {
-  id         Int      @id @default(autoincrement())
+  id         Int          @id @default(autoincrement())
   title      String
   body       String
-  category   String                              // 'Tech'|'Life'|'General'
-  authorId   Int      @map("author_id")
-  createdAt  DateTime @map("created_at")
+  category   PostCategory
+  authorId   Int          @map("author_id")
+  createdAt  DateTime     @map("created_at")
 
   @@index([category])
   @@map("posts")
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
+  id        Int             @id @default(autoincrement())
   name      String
-  category  String
+  category  ProductCategory
   price     Float
   stock     Int
-  createdAt DateTime @map("created_at")
+  createdAt DateTime        @map("created_at")
 
   @@map("products")
 }

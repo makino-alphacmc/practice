@@ -47,6 +47,8 @@ export function ProductForm() {
 								<SelectItem value="Electronics">Electronics</SelectItem>
 								<SelectItem value="Clothing">Clothing</SelectItem>
 								<SelectItem value="Books">Books</SelectItem>
+								<SelectItem value="Home">Home</SelectItem>
+								<SelectItem value="Sports">Sports</SelectItem>
 							</SelectContent>
 						</Select>
 					</div>

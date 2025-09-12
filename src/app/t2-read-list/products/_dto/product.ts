@@ -1,8 +1,10 @@
+import { ProductCategory } from "@prisma/client";
+
 // 商品データの完全な型定義
 export type Product = {
 	id: number; // 商品ID（主キー）
 	name: string; // 商品名
-	category: string; // カテゴリ
+	category: ProductCategory; // カテゴリ
 	price: number; // 価格
 	stock: number; // 在庫数
 	createdAt: Date; // 作成日時
